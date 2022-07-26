@@ -52,14 +52,15 @@ function App() {
                 setHash={setHash1}
                 setPreHash={setPreHash2}
             />
-            <Block  blockNumber={blockNumber2}
-                    nonce={nonce2}
-                    data={data2}
-                    preHash={preHash2}
-                    hash={hash2}
-                    setData={setData2}
-                    setHash={setHash2}
-                    setPreHash={setPreHash3}
+            <Block
+                blockNumber={blockNumber2}
+                nonce={nonce2}
+                data={data2}
+                preHash={preHash2}
+                hash={hash2}
+                setData={setData2}
+                setHash={setHash2}
+                setPreHash={setPreHash3}
             />
             <Block
                 blockNumber={blockNumber3}
