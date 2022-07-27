@@ -1,19 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {sha256} from "js-sha256";
 import PropTypes from "prop-types";
+import {BlockListContext} from "../BlockListContext";
 
 function Block(props) {
 
+    const {updateBlockList} = useContext(BlockListContext);
+
     const [data, setData] = useState("");
-    const {blockNumber, preHash, hash, updateBlockList} = props;
+    const {blockNumber, preHash, hash} = props;
 
     const handleOnChange = (event) => {
         setData(event.target.value);
     };
 
     useEffect(() => {
-        updateBlockList(blockNumber,sha256(`${data}${preHash}`));
-    },[preHash,data]);
+        updateBlockList(blockNumber, sha256(`${data}${preHash}`));
+    }, [preHash, data]);
 
     return (
         <div className="Block">
@@ -43,12 +46,10 @@ Block.defaultProps = {
     blockNumber: "-",
     preHash: "-",
     hash: "-",
-    updateBlockList: null
 };
 
 Block.propTypes = {
     blockNumber: PropTypes.number,
     preHash: PropTypes.string,
     hash: PropTypes.string,
-    updateBlockList: PropTypes.func
 };
