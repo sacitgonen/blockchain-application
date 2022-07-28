@@ -4,13 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BlockListProvider} from "./BlockListContext";
+import {Provider} from "react-redux";
+import BlockStore from "./BlockStore";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <BlockListProvider>
-            <App/>
-        </BlockListProvider>
+        <App/>
     </React.StrictMode>
 );
 

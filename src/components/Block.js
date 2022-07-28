@@ -1,21 +1,31 @@
 import React, {useState, useEffect, useContext} from "react";
 import {sha256} from "js-sha256";
 import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
 import {BlockListContext} from "../BlockListContext";
+import {useSelector} from "react-redux/es/index";
 
-function Block(props) {
+function Block({blockIndex}) {
 
-    const {updateBlockList} = useContext(BlockListContext);
+    //const {updateBlockList} = useContext(BlockListContext);
+    const dispatcher = useDispatch();
+    const {blockNumber, preHash, hash, nonce} = useSelector((reduxState) => reduxState.blockList[blockIndex]);
+
 
     const [data, setData] = useState("");
-    const {blockNumber, preHash, hash} = props;
 
     const handleOnChange = (event) => {
         setData(event.target.value);
     };
 
     useEffect(() => {
-        updateBlockList(blockNumber, sha256(`${data}${preHash}`));
+        //updateBlockList(blockNumber, sha256(`${data}${preHash}`));
+        dispatcher({
+            type: "UPDATE_BLOCK",
+            blockNumber,
+            nextHash: sha256(`${data}${preHash}`),
+            nextNonce: 0
+        });
     }, [preHash, data]);
 
     return (
@@ -27,7 +37,7 @@ function Block(props) {
                 <input value={data} onChange={handleOnChange}/>
                 <br/>
                 <label>nonce: </label>
-                <input value={"props.nonce"} readOnly={true}/>
+                <input value={nonce} readOnly={true}/>
                 <br/>
                 <label>preHash: </label>
                 <input value={preHash} readOnly={true}/>
@@ -41,15 +51,3 @@ function Block(props) {
 }
 
 export default Block;
-
-Block.defaultProps = {
-    blockNumber: "-",
-    preHash: "-",
-    hash: "-",
-};
-
-Block.propTypes = {
-    blockNumber: PropTypes.number,
-    preHash: PropTypes.string,
-    hash: PropTypes.string,
-};

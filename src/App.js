@@ -1,27 +1,26 @@
-import React, {useContext} from "react";
-import Block from "./components/Block";
+import React from "react";
 import './App.css';
-import {BlockListContext} from "./BlockListContext";
+import {BlockListProvider} from "./BlockListContext";
+import BlockStore from "./BlockStore";
+import {Provider} from "react-redux";
+import Home from "./components/Home";
+import Blockchain from  "./components/Blockchain";
+import {BrowserRouter, Routes,Route} from "react-router-dom";
+
 
 function App() {
-
-    const {blockList} = useContext(BlockListContext);
-
     return (
-        <div className="App">
-            {
-                blockList.map((block) => {
-                    return (
-                        <Block key={block.blockNumber}
-                               blockNumber={block.blockNumber}
-                               preHash={block.preHash}
-                               hash={block.hash}
-                        />
-                    )
-                })
-            }
-        </div>
-    );
+        <BlockListProvider>
+            <Provider store={BlockStore}>,
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/blockchain" element={<Blockchain/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </Provider>
+        </BlockListProvider>
+    )
 }
 
 export default App;
